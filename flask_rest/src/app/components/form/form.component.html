@@ -1,0 +1,12 @@
+<h1 class="text-center">Add User</h1>
+<form #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" class="form-group">
+  <label for="username" class="form-label">Name:</label>
+  <input type="text" id="username" name="name" [(ngModel)]="user.name" required class="form-control">
+
+  <label for="phone" class="form-label">Phone:</label>
+  <input type="text" id="phone" name="phone" [(ngModel)]="user.phone" required class="form-control">
+
+  <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>
+<a (click)="navigateToUsers()" class="btn btn-secondary mt-3">Back</a>
+

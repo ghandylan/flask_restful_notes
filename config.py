@@ -1,0 +1,11 @@
+import os
+
+
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS")
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    CORS_HEADERS = os.getenv("CORS_HEADERS")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    REDIS_HOST = os.getenv("REDIS_HOST")
+    REDIS_PORT = os.getenv("REDIS_PORT")
