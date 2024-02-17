@@ -1,1 +1,30 @@
-<p>login works!</p>
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="main-nav">
+  <a class="navbar-brand" href="">Flask Notes</a>
+</nav>
+
+<div class="form-container">
+  <h1>Login</h1><br>
+  <form method="post" action="/login">
+
+    <!-- Username input -->
+    <div class="form-outline mb-4">
+      <input title="Username" type="text" id="username" name="username" class="form-control" required/>
+      <label class="form-label" for="username">Username</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input title="Password" type="password" id="password" name="password" class="form-control" required/>
+      <label class="form-label" for="password">Password</label>
+    </div>
+
+
+    <!-- Submit button -->
+    <button title="Sign in" type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+    <!-- Register buttons -->
+    <div class="text-center">
+      <p>Not a member? <a href="/register">Register</a></p>
+    </div>
+  </form>
+</div>
