@@ -4,7 +4,7 @@ import bcrypt
 from flask import Blueprint, jsonify, request, make_response
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
-from models import User, db
+from models import User, db, Note
 
 endpoint = Blueprint('endpoints', __name__)
 
@@ -90,6 +90,31 @@ def login():
         return jsonify(access_token=access_token)
 
     return jsonify({"message": "invalid credentials"}), 401
+
+
+@endpoint.route("/note", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def add_note():
+    # get client's username from token claims
+    current_user = get_jwt_identity()
+    # get json data from body
+    title = request.json.get("title")
+    content = request.json.get("content")
+
+    # check if user exists on the database
+    user = User.query.filter_by(username=current_user).first()
+    if user is None:
+        return jsonify({"message": "user does not exist"}), 404
+
+    # if user exists, get user id from the database
+    user_id = user.id
+
+    # add note to the database
+    new_note = Note(title=title, content=content, user_id=user_id)
+    db.session.add(new_note)
+    db.session.commit()
+    return jsonify({"message": "note added"}), 201
 
 
 # Method: DELETE
