@@ -1,12 +1,10 @@
 import config
 import endpoints
+import redis
 from flask import Flask
 from flask_cors import CORS
-from flask_migrate import Migrate
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 from models import db
 
 
@@ -23,7 +21,16 @@ def create_app():
     migrate = Migrate(app, db)
     migrate.init_app(app, db)
     # json web token integration
-    JWTManager(app)
+    jwt = JWTManager(app)
+    jwt.init_app(app)
+
+    @jwt.token_in_blocklist_loader
+    def check_if_token_in_blacklist(jwt_header, jwt_payload):
+        jti = jwt_payload['jti']
+        redis_instance = redis.Redis(host=config.Config.REDIS_HOST, port=config.Config.REDIS_PORT)
+        entry = redis_instance.get(jti)
+        return entry is not None  # if the token is in redis, return True
+
     # register the endpoints
     app.register_blueprint(endpoints.endpoint)
     return app
