@@ -4,20 +4,19 @@
 
 <div class="form-container">
   <h1>Login</h1><br>
-  <form method="post" action="/login">
+  <form (submit)="onSubmit(username.value, password.value)">
 
     <!-- Username input -->
     <div class="form-outline mb-4">
-      <input title="Username" type="text" id="username" name="username" class="form-control" required/>
+      <input #username title="Username" type="text" id="username" name="username" class="form-control" required/>
       <label class="form-label" for="username">Username</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input title="Password" type="password" id="password" name="password" class="form-control" required/>
+      <input #password title="Password" type="password" id="password" name="password" class="form-control" required/>
       <label class="form-label" for="password">Password</label>
     </div>
-
 
     <!-- Submit button -->
     <button title="Sign in" type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>

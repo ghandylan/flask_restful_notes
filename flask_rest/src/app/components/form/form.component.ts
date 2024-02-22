@@ -43,6 +43,20 @@ export class FormComponent {
     }
   }
 
+
+  onLogout() {
+    this.userService.logoutUser().subscribe(
+      (response) => {
+        console.log('User logged out:', response);
+        localStorage.removeItem('access_token');
+        this.router.navigate(['/login']);
+      },
+      (error) => {
+        console.error('Error logging out:', error);
+      }
+    );
+  }
+
   navigateToUsers() {
     this.router.navigate(['/users']);
   }

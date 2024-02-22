@@ -12,6 +12,18 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
+  loginUser(username: string, password: string): Observable<any> {
+    const body = {username: username, password: password}
+    return this.http.post(this.apiUrl + 'login', body);
+  }
+
+  logoutUser(): Observable<any> {
+    // return this.http.post(this.apiUrl + 'logout', {}, {headers: {Authorization: 'Bearer ' + localStorage.getItem('access_token')}});
+    // get token from local storage
+    const token = localStorage.getItem('access_token');
+    return this.http.post(this.apiUrl + 'logout', {}, {headers: {Authorization: 'Bearer ' + token}});
+  }
+
   getUser(userId: number): Observable<any> {
     return this.http.get(this.apiUrl + 'user/' + userId);
   }
