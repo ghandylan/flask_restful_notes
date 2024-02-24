@@ -1,5 +1,8 @@
+import {Note} from "./note";
+
 export interface User {
   id: number;
-  name: string;
-  phone: string;
+  username: string;
+  password: string;
+  notes?: Note[];
 }

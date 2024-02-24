@@ -11,36 +11,36 @@ import {NgForm} from "@angular/forms";
 })
 export class UpdateComponent {
   // Initialize a new user object
-  user: User = {
-    id: 0,
-    name: '',
-    phone: ''
-  };
+  // user: User = {
+  //   id: 0,
+  //   // name: '',
+  //   phone: ''
+  // };
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    const userId = this.route.snapshot.params['userId'];
-    this.userService.getUser(userId).subscribe((user: User) => {
-      this.user = user;
-      console.log('User:', this.user);
-    });
+    // const userId = this.route.snapshot.params['userId'];
+    // this.userService.getUser(userId).subscribe((user: User) => {
+    //   this.user = user;
+    //   console.log('User:', this.user);
+    // });
   }
 
-  onSubmit(updateForm: NgForm): void {
-    if (updateForm.valid) {
-      this.userService.updateUser(this.user.id, this.user).subscribe(
-        (response) => {
-          console.log('User successfully updated:', response);
-          this.router.navigate(['/users']);
-        },
-        (error) => {
-          console.error('Error updating user:', error);
-        }
-      );
-    }
-  }
+  // onSubmit(updateForm: NgForm): void {
+  //   if (updateForm.valid) {
+  //     this.userService.updateUser(this.user.id, this.user).subscribe(
+  //       (response) => {
+  //         console.log('User successfully updated:', response);
+  //         this.router.navigate(['/users']);
+  //       },
+  //       (error) => {
+  //         console.error('Error updating user:', error);
+  //       }
+  //     );
+  //   }
+  // }
 
   navigateToUsers() {
     this.router.navigate(['/users']);
