@@ -6,10 +6,11 @@ import {AppComponent} from './app.component';
 import {FormComponent} from './components/form/form.component';
 import {FormsModule} from "@angular/forms";
 import {UsersComponent} from './components/users/users.component';
-import {HttpClientModule} from "@angular/common/http";
-import { UpdateComponent } from './components/update/update.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {UpdateComponent} from './components/update/update.component';
+import {LoginComponent} from './components/login/login.component';
+import {RegisterComponent} from './components/register/register.component';
+import {JwtInterceptor} from "../services/jwt-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { RegisterComponent } from './components/register/register.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
