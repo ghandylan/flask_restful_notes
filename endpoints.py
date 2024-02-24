@@ -19,13 +19,14 @@ def index():
     return jsonify({'message': 'Hello World'})
 
 
-@endpoint.route('/user/<int:user_id>', methods=['GET'])
-def show_user(user_id):
-    user = User.query.get(user_id)
+# GET USER'S ID BY SUPPLYING USERNAME in path
+@endpoint.route('/user/<string:username>', methods=['GET'])
+@cross_origin(supports_credentials=True)
+def get_user_id(username):
+    user = User.query.filter_by(username=username).first()
     if user is None:
-        return make_response(jsonify({'message': 'user does not exist'}))
-    user_data = {'id': user.id, 'name': user.name, 'phone': user.phone}
-    return jsonify(user_data)
+        return make_response(jsonify({'message': 'user not found'}), 404)
+    return jsonify({'id': user.id})
 
 
 # Method: GET
@@ -100,7 +101,6 @@ def login():
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def logout():
-    print("im claled")
     jti = get_jwt_identity()['jti']
     redis = Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'))
     redis.set(jti, '', ex=60 * 60 * 24)
