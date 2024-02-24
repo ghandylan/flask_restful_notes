@@ -1,15 +1,45 @@
-<h1 class="text-center">Add User</h1>
-<form #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" class="form-group">
-  <label for="username" class="form-label">Name:</label>
-  <input type="text" id="username" name="name" [(ngModel)]="user.name" required class="form-control">
+<!--<h1 class="text-center">Add User</h1>-->
+<!--<form #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" class="form-group">-->
+<!--  <label for="username" class="form-label">Name:</label>-->
+<!--  <input type="text" id="username" name="name" [(ngModel)]="user.name" required class="form-control">-->
 
-  <label for="phone" class="form-label">Phone:</label>
-  <input type="text" id="phone" name="phone" [(ngModel)]="user.phone" required class="form-control">
+<!--  <label for="phone" class="form-label">Phone:</label>-->
+<!--  <input type="text" id="phone" name="phone" [(ngModel)]="user.phone" required class="form-control">-->
 
-  <button type="submit" class="btn btn-primary mt-3">Submit</button>
-</form>
-<a (click)="navigateToUsers()" class="btn btn-secondary mt-3">Back</a>
-<br>
-<a (click)="onLogout()" class="btn btn-secondary mt-3">Logout</a>
+<!--  <button type="submit" class="btn btn-primary mt-3">Submit</button>-->
+<!--</form>-->
+<!--<a (click)="navigateToUsers()" class="btn btn-secondary mt-3">Back</a>-->
+<!--<br>-->
+<!--<a (click)="onLogout()" class="btn btn-secondary mt-3">Logout</a>-->
+
+<div class="addnote-form-container">
+  <form #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" class="form-group">
+    <h2>Add note</h2>
+    <!-- Title input-->
+    <div class="form-group">
+      <input #note_title title="addnote-title" type="text" [(ngModel)]="note.title" id="addnote-title"
+             name="addnote-title" class="form-control"
+             required/>
+      <label class="form-label" for="addnote-title">Title</label>
+    </div>
+
+    <!-- Content input-->
+    <div class="form-group">
+      <input #note_body title="addnote-content" type="text" [(ngModel)]="note.content" id="addnote-content"
+             name="addnote-content"
+             class="addnote-content" required/>
+      <label class="form-label" for="addnote-content">Body</label>
+    </div>
+
+    <!-- Submit/Add note button -->
+    <button title="Add note" type="submit" class="btn btn-primary">Add</button>
+
+    <!-- Cancel button -->
+    <a (click)="navigateToUsers()" class="btn btn-secondary mt-3" role="button">Cancel</a>
+
+    <br>
+    <a (click)="onLogout()" class="btn btn-secondary mt-3">Logout</a>
+  </form>
+</div>
 
 

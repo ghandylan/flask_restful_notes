@@ -21,20 +21,24 @@ export class UserService {
     // return this.http.post(this.apiUrl + 'logout', {}, {headers: {Authorization: 'Bearer ' + localStorage.getItem('access_token')}});
     // get token from local storage
     const token = localStorage.getItem('access_token');
+    console.log(token)
     return this.http.post(this.apiUrl + 'logout', {}, {headers: {Authorization: 'Bearer ' + token}});
   }
 
-  getUser(userId: number): Observable<any> {
-    return this.http.get(this.apiUrl + 'user/' + userId);
+  registerUser(user: User): Observable<any> {
+    return this.http.post(this.apiUrl + 'user', user);
+  }
+
+
+  getUserIdByUsername(username: string): Observable<any> {
+    return this.http.get(this.apiUrl + 'user/' + username);
+
   }
 
   getUsers(): Observable<any> {
     return this.http.get(this.apiUrl + 'users');
   }
 
-  addUser(user: User): Observable<any> {
-    return this.http.post(this.apiUrl + 'user', user);
-  }
 
   deleteUser(userId: number): Observable<any> {
     return this.http.delete(this.apiUrl + 'user/' + userId);
