@@ -19,6 +19,18 @@ def index():
     return jsonify({'message': 'Hello World'})
 
 
+# GET USER'S ID BY SUPPLYING USERNAME in json body
+
+def get_user_id_by_username(username):
+    user_query = User.query.filter_by(username=username).first()
+
+    if user_query is None:
+        return None
+    user_id = user_query.id
+
+    return user_id
+
+
 # GET USER'S ID BY SUPPLYING USERNAME in path
 @endpoint.route('/user/<string:username>', methods=['GET'])
 @cross_origin(supports_credentials=True)
@@ -41,8 +53,6 @@ def show_users():
 
     if not users_list:
         return make_response(jsonify({'message': 'empty'}))
-
-    return jsonify(users_list)
 
 
 # Method: POST
@@ -172,6 +182,46 @@ def edit_note(note_id):
 
     except Exception:
         return make_response(jsonify({'message': 'error updating note'}), 500)
+
+
+# shows users notes based on username
+@endpoint.route('/notes', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def show_notes():
+    try:
+        # get username from claims
+        current_user = get_jwt_identity()['username']
+
+        # get jti from token claims
+        jti = get_jwt_identity()['jti']
+
+        # check if token is in redis
+        redis = Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'))
+        if redis.get(jti) is not None:
+            return jsonify({"message": "You are logged out. Please log in again."}), 401
+
+        # get user id by username
+        user_id = get_user_id_by_username(current_user)
+        user_notes = Note.query.filter_by(user_id=user_id)
+
+        # if user is empty
+        if user_notes is None:
+            return jsonify({"message": "User does not exist"}), 404
+
+        # return list of notes
+        users_notes = []
+        for note in user_notes:
+            users_notes.append({'id': note.id, 'title': note.title, 'content': note.content})
+
+        # if user does not have notes
+        if users_notes is None:
+            return make_response(jsonify({'message': 'you dont have notes'}), 404)
+
+        return jsonify(users_notes)
+
+    except Exception:
+        return make_response(jsonify({'message': 'Error showing notes'}), 500)
 
 
 # Method: DELETE
