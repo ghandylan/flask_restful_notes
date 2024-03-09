@@ -1,11 +1,11 @@
 import config
-import endpoints
 import redis
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from models import db
+from routes import user, notes, test
 
 
 def create_app():
@@ -31,8 +31,10 @@ def create_app():
         entry = redis_instance.get(jti)
         return entry is not None  # if the token is in redis, return True
 
-    # register the endpoints
-    app.register_blueprint(endpoints.endpoint)
+    # register the routes
+    app.register_blueprint(user.user_endpoint)
+    app.register_blueprint(notes.notes_endpoint)
+    app.register_blueprint(test.test_endpoint)
     return app
 
 
