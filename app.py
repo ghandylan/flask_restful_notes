@@ -24,13 +24,6 @@ def create_app():
     jwt = JWTManager(app)
     jwt.init_app(app)
 
-    @jwt.token_in_blocklist_loader
-    def check_if_token_in_blacklist(jwt_header, jwt_payload):
-        jti = jwt_payload['jti']
-        redis_instance = redis.Redis(host=config.Config.REDIS_HOST, port=config.Config.REDIS_PORT)
-        entry = redis_instance.get(jti)
-        return entry is not None  # if the token is in redis, return True
-
     # register the routes
     app.register_blueprint(user.user_endpoint)
     app.register_blueprint(notes.notes_endpoint)

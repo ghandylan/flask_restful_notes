@@ -1,10 +1,9 @@
-import os
-
 from flask import Blueprint, jsonify, request, make_response
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from helpers import token_in_blacklist
 from models import User, db, Note
-from redis import Redis
+from sqlalchemy.exc import SQLAlchemyError
 
 notes_endpoint = Blueprint('notes', __name__)
 
@@ -20,9 +19,8 @@ def add_note():
     jti = get_jwt_identity()['jti']
 
     # check if token is in redis
-    redis = Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'))
-    if redis.get(jti) is not None:
-        return jsonify({"message": "You are logged out. Please log in again."}), 401
+    if token_in_blacklist(jti):
+        return jsonify({"message": "you are logged out!"}), 401
 
     # get json data from body
     title = request.json.get("title")
@@ -43,6 +41,7 @@ def add_note():
     return jsonify({"message": "note added"}), 201
 
 
+# TODO:
 @notes_endpoint.route("/note/<int:note_id>", methods=['PUT'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
@@ -72,7 +71,7 @@ def edit_note(note_id):
 
         return make_response(jsonify({'message': 'note updated'}), 200)
 
-    except   Exception:
+    except SQLAlchemyError:
         return make_response(jsonify({'message': 'error updating note'}), 500)
 
 
@@ -89,9 +88,8 @@ def show_notes():
         jti = get_jwt_identity()['jti']
 
         # check if token is in redis
-        redis = Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'))
-        if redis.get(jti) is not None:
-            return jsonify({"message": "You are logged out. Please log in again."}), 401
+        if token_in_blacklist(jti):
+            return jsonify({"message": "you are logged out!"}), 401
 
         # get user id by username
         user_query = User.query.filter_by(username=current_user).first()
@@ -115,5 +113,5 @@ def show_notes():
 
         return jsonify(users_notes)
 
-    except Exception:
+    except SQLAlchemyError:
         return make_response(jsonify({'message': 'Error showing notes'}), 500)

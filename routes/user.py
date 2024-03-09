@@ -11,17 +11,6 @@ from redis import Redis
 user_endpoint = Blueprint('user', __name__)
 
 
-# GET USER'S ID BY SUPPLYING USERNAME in json body
-# def get_user_id_by_username(username):
-#     user_query = User.query.filter_by(username=username).first()
-#
-#     if user_query is None:
-#         return None
-#     user_id = user_query.id
-#
-#     return user_id
-
-
 # GET USER'S ID BY SUPPLYING USERNAME in path
 @user_endpoint.route('/user/<string:username>', methods=['GET'])
 @cross_origin(supports_credentials=True)
@@ -88,32 +77,10 @@ def login():
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def logout():
+    # get jti from claims
     jti = get_jwt_identity()['jti']
+    # set redis credentials
     redis = Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'))
+    # add jti to blacklist
     redis.set(jti, '', ex=60 * 60 * 24)
     return jsonify({"message": "Successfully logged out"})
-
-
-# Method: PUT
-# Description: This endpoint updates a user's details in the database based on the provided user ID.
-# Request: User ID in the URL and a JSON object containing name and phone.
-# Response: A message indicating whether the user was updated successfully or not.
-
-# TODO: turn this into note, i am upgrading user crud to note crud
-@user_endpoint.route('/user/<int:user_id>', methods=['PUT'])
-@cross_origin(supports_credentials=True)
-def update(user_id):
-    try:
-        user = User.query.get(user_id)
-        if user is None:
-            return make_response((jsonify({'message': 'user not found'})), 404)
-        # get updated data from json body
-        updated_data = request.get_json()
-        user.name = updated_data['name']
-        user.phone = updated_data['phone']
-        db.session.add(user)
-        db.session.commit()
-        return make_response((jsonify({'message': 'user updated'})), 201)
-
-    except Exception:
-        return make_response(jsonify({'message': 'error updating user'}), 500)
