@@ -82,6 +82,6 @@ export class FormComponent {
   }
 
   navigateToUsers() {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/notes']);
   }
 }

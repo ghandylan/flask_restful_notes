@@ -1,0 +1,22 @@
+<!-- ALL NOTES section -->
+<h2 class="dashboard_title">My Notes</h2>
+<div id="notes-container">
+  <div class="card" id="note-card" *ngFor="let note of notes">
+    <div class="card-body">
+      <h4 class="card-title">{{note.title}}</h4>
+      <p class="card-text">{{note.content}}</p>
+      <small class="card-text">Created at </small><br><br>
+      <div id="note-actions">
+      </div>
+    </div>
+  </div>
+  <div id="notes-container">
+    <!-- ADD note button -->
+    <a id="add-note-button" href="">
+      <i title="Add note" class="fa fa-plus-circle fa-5x"></i>
+    </a>
+  </div>
+</div>
+
+<a (click)="navigateToAddNote()" class="btn btn-secondary mt-3" role="button">Add Note</a>
+<a (click)="onLogout()" class="btn btn-secondary mt-3">Logout</a>

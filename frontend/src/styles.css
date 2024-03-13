@@ -1,1 +1,163 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  overflow-x: hidden;
+}
+
+/********** Navigation bar color ***********/
+#main-nav {
+  /* also change `#add-note-button` to match accent */
+  background-color: #919b93
+}
+
+.form-container {
+  max-width: 400px;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  background-color: #f2f2f2;
+  margin: 5% auto 0;
+}
+
+.addnote-form-container {
+  max-width: 800px;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  background-color: #f2f2f2;
+  margin: 5% auto 0;
+}
+
+.dashboard_title {
+  text-align: center;
+  font-size: 2em;
+  margin: 0;
+  padding: 0.5em 0 0;
+}
+
+#add-note-button {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  margin: 0;
+  padding: 5px 3px;
+  color: #919b93;
+}
+
+#add-note-button:hover {
+  color: #1db709;
+}
+
+#edit-note-button, #delete-note-button, #favorite-note-button {
+  color: #919b93;
+}
+
+#edit-note-button:hover {
+  color: #e3cb22;
+}
+
+#delete-note-button:hover {
+  color: #000;
+}
+
+#favorite-note-button:hover, #remove-favorite-note-button {
+  color: #c41b1b;
+}
+
+#remove-favorite-note-button:hover {
+  color: #d24545;
+}
+
+#notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 100%;
+}
+
+#note-card {
+  flex: 2 0 calc(47.8%);
+  max-width: calc(47.8%);
+  box-sizing: border-box;
+  border-radius: 30px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em;
+  background-color: #f2f2f2;
+}
+
+#addnote-content, #editnote-content {
+  width: 100%;
+  height: 300px;
+  resize: none;
+}
+
+#home_page_title {
+  text-align: center;
+  margin-top: 3em;
+  padding-top: 2.5em;
+}
+
+#home_page_title h1 {
+  font-size: 5em;
+}
+
+#home_page_title h2 {
+  font-size: 2em;
+  margin: 0;
+  padding: 0.5em 0 0;
+}
+
+#home_page_buttons {
+  display: flex;
+  justify-content: center;
+  margin: 2em 1em 0;
+  gap: 1em;
+}
+
+#home_page_buttons a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 0.5em 1em;
+  border: 1px solid #919b93;
+  background-color: #919b93;
+  border-radius: 1em;
+  width: auto;
+}
+
+#home_page_buttons a:hover {
+  background-color: #b2b2b2;
+  color: #ffffff;
+}
+
+/********** Responsive Media Queries ***********/
+@media (max-width: 767px) {
+  .form-container, .addnote-form-container {
+    max-width: 100%;
+    margin: 10% auto;
+  }
+
+  #notes-container {
+    flex-direction: column;
+  }
+
+  #note-card {
+    max-width: calc(92%);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .form-container, .addnote-form-container {
+    max-width: 100%;
+    margin: 10% auto;
+  }
+
+  #notes-container {
+    flex-direction: column;
+  }
+
+  #note-card {
+    max-width: calc(96%);
+  }
+}
