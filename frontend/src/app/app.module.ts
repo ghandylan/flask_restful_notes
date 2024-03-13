@@ -11,6 +11,7 @@ import {UpdateComponent} from './components/update/update.component';
 import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
 import {JwtInterceptor} from "../services/jwt-interceptor.service";
+import { NotesComponent } from './components/notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {JwtInterceptor} from "../services/jwt-interceptor.service";
     UsersComponent,
     UpdateComponent,
     LoginComponent,
-    RegisterComponent],
+    RegisterComponent,
+    NotesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

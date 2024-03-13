@@ -43,7 +43,7 @@ export class LoginComponent {
       (response: any) => {
         localStorage.setItem('access_token', response.access_token);
         this.greetUser();
-        this.router.navigate(['/form']);
+        this.router.navigate(['/notes']);
       },
       (error) => {
         console.error(error);
