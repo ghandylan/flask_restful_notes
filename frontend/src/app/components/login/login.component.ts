@@ -19,10 +19,6 @@ export class LoginComponent {
     this.router.navigate(['/register']);
   }
 
-  login(username: string, password: string) {
-    this.userService.loginUser(username, password);
-  }
-
   greetUser() {
     const token = localStorage.getItem('access_token');
     if (token) {
@@ -46,7 +42,13 @@ export class LoginComponent {
         this.router.navigate(['/notes']);
       },
       (error) => {
-        console.error(error);
+        if (error.status === 401) {
+          // If the error status is 401 (Unauthorized), show an alert dialog
+          alert('Invalid credentials. Please try again.');
+        } else {
+          // For any other error, log it to the console
+          console.error(error);
+        }
       }
     );
   }

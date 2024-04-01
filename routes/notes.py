@@ -41,7 +41,6 @@ def add_note():
     return jsonify({"message": "note added"}), 201
 
 
-# TODO:
 @notes_endpoint.route("/note/<int:note_id>", methods=['PUT'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
@@ -51,8 +50,15 @@ def edit_note(note_id):
         if note is None:
             return make_response(jsonify({'message': 'note not found'}), 404)
 
-        # get current user from jwt claims
-        current_user = get_jwt_identity()
+        # get client's username from token claims
+        current_user = get_jwt_identity()['username']
+
+        # get jti from token claims
+        jti = get_jwt_identity()['jti']
+
+        # check if token is in redis
+        if token_in_blacklist(jti):
+            return jsonify({"message": "you are logged out!"}), 401
 
         # check if user exists on the database by passing in claims
         user = User.query.filter_by(username=current_user).first()
@@ -115,3 +121,31 @@ def show_notes():
 
     except SQLAlchemyError:
         return make_response(jsonify({'message': 'Error showing notes'}), 500)
+
+
+@notes_endpoint.route('/note/<int:note_id>', methods=['DELETE'])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def delete_note(note_id):
+    try:
+        # get jti from token claims
+        jti = get_jwt_identity()['jti']
+
+        # check if token is in redis
+        if token_in_blacklist(jti):
+            return jsonify({"message": "you are logged out!"}), 401
+
+        # query the notes table for note_id
+        selected_note = Note.query.filter_by(id=note_id).first()
+
+        # if note_id is null, show error
+        if not selected_note:
+            return make_response(jsonify({'message': 'Note does not exist'}), 404)
+
+        # delete the note and commit to db
+        db.session.delete(selected_note)
+        db.session.commit()
+        return make_response(jsonify({'message': 'Note successfully deleted'}), 200)
+
+    except SQLAlchemyError:
+        return make_response(jsonify({'message': 'Error deleting note'}), 500)

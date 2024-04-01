@@ -18,6 +18,11 @@ export class UserService {
     return this.http.post(this.apiUrl + 'login', body);
   }
 
+  registerUser(user: User): Observable<any> {
+    const body = {username: user.username, password: user.password}
+    return this.http.post(this.apiUrl + 'user', body);
+  }
+
   logoutUser(): Observable<any> {
     // return this.http.post(this.apiUrl + 'logout', {}, {headers: {Authorization: 'Bearer ' + localStorage.getItem('access_token')}});
     // get token from local storage
@@ -41,12 +46,6 @@ export class UserService {
         })
       );
   }
-
-
-  registerUser(user: User): Observable<any> {
-    return this.http.post(this.apiUrl + 'user', user);
-  }
-
 
   getUserIdByUsername(username: string): Observable<any> {
     return this.http.get(this.apiUrl + 'user/' + username);

@@ -23,28 +23,6 @@ export class FormComponent {
   constructor(private noteService: NoteService, private userService: UserService, private router: Router) {
   }
 
-  // onSubmit(addForm: NgForm): void {
-  //   // Check if the form is valid
-  //   if (addForm.valid) {
-  //     // Prepare the user data to be sent to the backend
-  //     const newUser = this.user;
-  //
-  //     // Use UserService to send the new user data to the backend
-  //     this.userService.addUser(newUser).pipe(
-  //       tap(
-  //         // Log the response on successful submission
-  //         (response) => {
-  //           console.log('Data successfully submitted:', response);
-  //         },
-  //         // Log the error on failed submission
-  //         (error) => {
-  //           console.error('Error submitting data:', error);
-  //         }
-  //       )
-  //     ).subscribe();
-  //   }
-  // }
-
   onSubmit(addForm: NgForm): void {
     // Check if the form is valid
     if (addForm.valid) {

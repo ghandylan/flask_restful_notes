@@ -8,41 +8,32 @@
 
 <div class="form-container">
   <h1>Register</h1><br>
-  <form method="post" action="/register">
-
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(user)">
 
     <!-- Username input -->
     <div class="form-outline mb-4">
-      <input type="text" id="username" class="form-control" name="username" required/>
+      <input type="text" id="username" class="form-control" formControlName="username" required/>
       <label class="form-label" for="username">Username</label>
-    </div>
-
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-      <input type="email" id="email" class="form-control" name="email" required/>
-      <label class="form-label" for="email">Email</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="password" class="form-control" name="password" required/>
+      <input type="password" id="password" class="form-control" formControlName="password" required/>
       <label class="form-label" for="password">Password</label>
     </div>
 
     <!-- Pass confirmation input -->
     <div class="form-outline mb-4">
-      <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required/>
+      <input type="password" id="password_confirmation" class="form-control" formControlName="password_confirmation"
+             required/>
       <label class="form-label" for="password_confirmation">Confirm Password</label>
     </div>
 
-
     <!-- Submit button -->
-    <button title="Register" type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+    <button title="Register" type="submit" class="btn btn-primary btn-block mb-4" [disabled]="!registerForm.valid">
+      Register
+    </button>
 
-    <!-- Register buttons -->
-    <div class="text-center">
-      <p>Already a member? <a href="/login">Login</a></p>
-    </div>
   </form>
 </div>
 </body>
