@@ -7,6 +7,9 @@
       <p class="card-text">{{note.content}}</p>
       <small class="card-text">Created at </small><br><br>
       <div id="note-actions">
+        <a (click)="onDelete(note.id)" id="delete-note-button">
+          <i title="Delete note">Delete</i>
+        </a>
       </div>
     </div>
   </div>

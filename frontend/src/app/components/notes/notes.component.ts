@@ -3,6 +3,7 @@ import {Note} from "../../../models/note";
 import {NoteService} from "../../../services/note.service";
 import {Router} from "@angular/router";
 import {UserService} from "../../../services/user.service";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-notes',
@@ -28,6 +29,30 @@ export class NotesComponent implements OnInit {
 
   navigateToAddNote(): void {
     this.router.navigate(['/form']);
+  }
+
+  onDelete(id : number): void  {
+    this.noteService.deleteNoteById(id).pipe(
+      tap(
+        // Log the response on successful submission
+        (response) => {
+          console.log('Data successfully deleted:', response);
+          // refresh the notes list
+          this.noteService.showNotes().subscribe(
+            (notes: Note[]) => {
+              this.notes = notes;
+            },
+            (error) => {
+              console.error(error);
+            }
+          );
+        },
+        // Log the error on failed submission
+        (error) => {
+          console.error('Error deleting data:', error);
+        }
+      )
+    ).subscribe();
   }
 
   onLogout() {

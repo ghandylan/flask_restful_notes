@@ -16,7 +16,7 @@ export class NoteService {
   }
 
   showNotes(): Observable<Note[]> {
-    // get jwt token from local stoarge
+    // get jwt token from local storage
     const token = localStorage.getItem('access_token');
 
     // set the Authorization bearer token as the Jwt
@@ -57,6 +57,19 @@ export class NoteService {
     }
     // set the note's user_id to the current user's id
     return this.http.post(this.apiUrl + 'note', note);
+  }
 
+  deleteNoteById(id: number) : Observable<any> {
+    console.log((this.apiUrl + 'note/' + id));
+
+    // get jwt token from local storage
+    const token = localStorage.getItem('access_token');
+
+    // set the Authorization bearer token as the Jwt
+    const headers = {
+      Authorization: 'Bearer ' + token
+    };
+
+    return this.http.delete(this.apiUrl + 'note/' + id, {headers});
   }
 }

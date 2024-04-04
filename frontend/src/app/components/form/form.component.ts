@@ -35,6 +35,8 @@ export class FormComponent {
           // Log the response on successful submission
           (response) => {
             console.log('Data successfully submitted:', response);
+            // Navigate to the users page
+            this.router.navigate(['/notes']);
           },
           // Log the error on failed submission
           (error) => {
